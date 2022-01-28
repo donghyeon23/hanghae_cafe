@@ -1,0 +1,25 @@
+{
+  "name": "hanghae_blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donghyeon23/hanghae_blog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/donghyeon23/hanghae_blog/issues"
+  },
+  "homepage": "https://github.com/donghyeon23/hanghae_blog#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.7"
+  }
+}

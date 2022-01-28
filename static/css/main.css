@@ -1,0 +1,25 @@
+* {
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
+}
+
+.wrap {
+  background-color: rgb(243, 218, 180);
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+.banner {
+  width: 100%;
+  height: 200px;
+
+  background-color: white;
+  background-image: url("../images/logo_custom.png");
+
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  cursor: pointer;
+}

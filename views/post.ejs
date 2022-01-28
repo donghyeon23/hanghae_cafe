@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:title" content="hanghae99 mini blog" />
+    <meta property="og:description" content="mini blog for hanghae99 project" />
+    <meta property="og:image" content="/images/favicon.ico" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>My Mini Blog</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link href='/css/main.css' rel="stylesheet">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+    <!-- api js -->
+    <script src="scripts/api.js"></script>
+
+
+    <style>
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+
+            border: solid 1px gray;
+            border-radius: 10px;
+        }
+
+        span.example {
+            color: gray;
+            font-size: 14px;
+        }
+
+        .btn-sparta {
+            color: #fff;
+            background-color: #eebd1d;
+            border-color: #eebd1d;
+        }
+
+        .btn-outline-sparta {
+            color: #eebd1d;
+            background-color: transparent;
+            background-image: none;
+            border-color: #eebd1d;
+        }
+    </style>
+
+</head>
+
+<body>
+    <% const checkId = postNoId.length !== 0 ? postNoId : false %>
+        <div class="wrap">
+            <div class="banner" onclick="window.location.href = '/'"></div>
+            <div class="container">
+                <div class="post-box">
+                    <div>
+                    <% if (post.id) { %>
+                        <input class="input" type="text" placeholder="제목" id="title_edit" value="<%=post.title%>">
+                        <input class="input" type="text" placeholder="작성자" id="writer_edit" value="<%=post.writer%>">
+                        <% } else { %>
+                        <input class="input" type="text" placeholder="제목" id="title">
+                        <input class="input" type="text" placeholder="작성자" id="writer">
+                        <% } %>
+                    </div>
+                    <hr>
+                    <div id="content">
+                        <div id="editor"></div>
+                            <input class="input" type="password" placeholder="비밀번호" id="password">
+                            <% if(status === 'old') { %>
+                            <button onclick="post_edit('<%=post.id%>')" id="btn-save" class="btn btn-outline-sparta btn-lg">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                            </button>
+                            <button onclick="post_delete('<%=post.id%>')" id="btn-delete" class="btn btn-sparta btn-lg">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </button>
+                            <% } else { %>
+                                <button onclick="post_save()" id="btn-save" class="btn btn-outline-sparta btn-lg">
+                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                    </button>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const postNoId = <%- checkId %>;
+            console.log(postNoId)
+            const editor = new toastui.Editor({
+                el: document.querySelector('#editor'),
+                height: '700px',
+            });
+
+            if (postNoId) {
+                editor.setHTML(postNoId.content)
+            }
+        </script>
+        
+</body>
+
+</html>

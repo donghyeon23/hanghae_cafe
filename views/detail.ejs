@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:title" content="hanghae99 mini blog" />
+    <meta property="og:description" content="mini blog for hanghae99 project" />
+    <meta property="og:image" content="/images/favicon.ico" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>My Mini Blog</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link href='/css/main.css' rel="stylesheet">
+    <script src="scripts/api.js"></script>
+
+    <style>
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+
+            border: solid 1px gray;
+            border-radius: 10px;
+        }
+
+        span.example {
+            color: gray;
+            font-size: 14px;
+        }
+
+        .btn-sparta {
+            color: #fff;
+            background-color: #eebd1d;
+            border-color: #eebd1d;
+        }
+
+        .btn-outline-sparta {
+            color: #eebd1d;
+            background-color: transparent;
+            background-image: none;
+            border-color: #eebd1d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="banner" onclick="window.location.href = '/'"></div>
+        <div class="container">
+            <div class="exist-post">
+                <div class="d-flex align-items-end">
+                    <div>
+                        <h1 id="title"><%= post.title %></h1>
+                    </div>
+                    <button onclick='window.location.href="/post?id=<%= post.id %>"' id="btn-edit" class="btn btn-outline-sparta btn-lg">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <hr>
+                <label id="writer"><%=post.writer%></label>
+                <hr>
+                <div id="content">
+                    <p><%=post.content%></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div id="examples" class="container">
+            <h3 style="text-align: center;margin-bottom:1rem">Write your own sentences!</h3>
+            <ul id="example-list">
+                <li id="ex-0">This sentence contains the word 'word'.&nbsp;&nbsp;&nbsp;<a
+                        href="javascript:delete_ex(0)">delete</a></li>
+                <li id="ex-1">I don't like using the MS Word program.&nbsp;&nbsp;&nbsp;<a
+                        href="javascript:delete_ex(1)">delete</a></li>
+            </ul>
+            <div class="d-flex justify-content-between" style="margin-left:20px;">
+                <input id="new-example" class="form-control form-control-sm" style="margin-right: 0.5rem">
+                <button class="btn btn-outline-secondary btn-sm" onclick="add_ex()">add</button>
+            </div>
+        </div> -->
+</body>
+
+</html>
