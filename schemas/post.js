@@ -5,7 +5,7 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    writer: {
+    nickname: {
         type: String,
         required: true
     },
@@ -19,6 +19,9 @@ const PostSchema = new mongoose.Schema({
     },
     date: {
         type: String,
+    },
+    comment: {
+        type: [],
     },
 });
 

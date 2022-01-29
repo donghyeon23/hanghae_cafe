@@ -10,7 +10,7 @@
     <meta property="og:image" content="/images/favicon.ico" />
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <title>My Mini Blog</title>
+    <title> My Mini Board | Detail </title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -27,7 +27,8 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
     <link href='/css/main.css' rel="stylesheet">
     <script src="scripts/api.js"></script>
 
@@ -70,34 +71,42 @@
             <div class="exist-post">
                 <div class="d-flex align-items-end">
                     <div>
-                        <h1 id="title"><%= post.title %></h1>
+                        <h1 id="title">
+                            <%= post.title %>
+                        </h1>
                     </div>
-                    <button onclick='window.location.href="/post?id=<%= post.id %>"' id="btn-edit" class="btn btn-outline-sparta btn-lg">
+                    <button onclick='window.location.href="/post?id=<%= post.id %>"' id="btn-edit"
+                        class="btn btn-outline-sparta btn-lg">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </button>
                 </div>
                 <hr>
-                <label id="writer"><%=post.writer%></label>
+                <label id="writer">
+                    <%=post.writer%>
+                </label>
                 <hr>
                 <div id="content">
-                    <p><%=post.content%></p>
+                    <p>
+                        <%=post.content%>
+                    </p>
                 </div>
             </div>
         </div>
+    
+    <div id="comments" class="container">
+        <h3 style="text-align: center;margin-bottom:1rem">댓글</h3>
+        <ul id="comment-list">
+            <li id="ex-0">This sentence contains the word 'word'.&nbsp;&nbsp;&nbsp;<a
+                    href="javascript:delete_ex(0)">delete</a></li>
+            <li id="ex-1">I don't like using the MS Word program.&nbsp;&nbsp;&nbsp;<a
+                    href="javascript:delete_ex(1)">delete</a></li>
+        </ul>
+        <div class="d-flex justify-content-between" style="margin-left:20px;">
+            <input id="new-example" class="form-control form-control-sm" style="margin-right: 0.5rem">
+            <button class="btn btn-outline-secondary btn-sm" onclick="add_ex()">add</button>
+        </div>
     </div>
-    <!-- <div id="examples" class="container">
-            <h3 style="text-align: center;margin-bottom:1rem">Write your own sentences!</h3>
-            <ul id="example-list">
-                <li id="ex-0">This sentence contains the word 'word'.&nbsp;&nbsp;&nbsp;<a
-                        href="javascript:delete_ex(0)">delete</a></li>
-                <li id="ex-1">I don't like using the MS Word program.&nbsp;&nbsp;&nbsp;<a
-                        href="javascript:delete_ex(1)">delete</a></li>
-            </ul>
-            <div class="d-flex justify-content-between" style="margin-left:20px;">
-                <input id="new-example" class="form-control form-control-sm" style="margin-right: 0.5rem">
-                <button class="btn btn-outline-secondary btn-sm" onclick="add_ex()">add</button>
-            </div>
-        </div> -->
+</div>
 </body>
 
 </html>

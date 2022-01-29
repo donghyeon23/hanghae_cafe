@@ -10,7 +10,7 @@
     <meta property="og:image" content="/images/favicon.ico" />
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <title>My Mini Blog</title>
+    <title>My Mini Board | List</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -34,10 +34,11 @@
 
     <!-- style css -->
     <style>
-        .search-box {
-            width: 70%;
-            margin: 50px auto;
-            max-width: 700px;
+
+        .button-box {
+            width: 80%;
+            max-width: 800px;
+            margin: auto;
         }
 
         .table {
@@ -100,8 +101,9 @@
 <body>
     <div class="wrap">
         <div class="banner" onclick="window.location.href = '/'"></div>
-        <div>
+        <div class="button-box">
             <button class="btn btn-lg" onclick="window.location.href = '/post'">새 글 작성</button>
+            <button class="btn btn-lg" onclick="window.location.href = '/register'">로그인</button>
         </div>
         <table class="table">
             <thead class="thead-light">
