@@ -47,6 +47,11 @@ app.get('/detail', async (req, res) => {
     res.render('detail', { post: post });
 });
 
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+
+
 app.listen(port, () => {
     console.log(port, '포트로 서버가 열렸습니다!');
 });
