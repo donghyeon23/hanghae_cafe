@@ -5,18 +5,18 @@ function getCurrentDate() {
 
 function post_save() {
     let title = $('#title').val();
-    let writer = $('#writer').val();
     let password = $('#password').val();
     let content = editor.getMarkdown();
-    console.log(title, writer, password, content);
+    console.log(title, password, content);
     $.ajax({
         type: 'PUT',
         url: '/api/post',
+        headers: {
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         data: {
             title: title,
-            writer: writer,
             content: content,
-            password: password,
             date: getCurrentDate()
         },
         success: function (response) {
@@ -28,67 +28,79 @@ function post_save() {
 
 
 async function post_edit(id) {
-    let password = $('#password').val();
-    console.log(check_password(id, password))
-    if (await check_password(id, password)) {
-        let title = $('#title_edit').val();
-        let writer = $('#writer_edit').val();
-        let content = editor.getMarkdown();
+    let title = $('#title_edit').val();
+    let content = editor.getMarkdown();
 
-        $.ajax({
-            type: 'PUT',
-            url: `/api/post?id=${id}`,
-            data: {
-                title: title,
-                writer: writer,
-                content: content,
-                password: password,
-                date: getCurrentDate()
-            },
-            success: function (response) {
-                alert('수정 완료!');
-                location.href = '/';
-            },
-        });
-    } else {
-        alert('비밀번호를 다시 확인해 주세요!');
-
-    }
-}
-
-async function post_delete(id) {
-    let password = $('#password').val();
-    console.log(check_password(id, password));
-    if (await check_password(id, password)) {
-        $.ajax({
-            type: 'DELETE',
-            url: `/api/post?id=${id}`,
-            data: {
-            },
-            success: function (response) {
-                alert('삭제 완료!');
-                location.href = '/';
-            },
-        });
-    } else {
-        alert('비밀번호를 다시 확인해 주세요!');
-
-    }
-}
-
-
-function check_password(id, password) {
-    let answer;
     $.ajax({
-        type: 'GET',
-        url: `/api/post/password?id=${id}`,
-        async: false,
+        type: 'PUT',
+        url: `/api/post?id=${id}`,
+        headers: {
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         data: {
-            password: password,
+            title: title,
+            content: content,
         },
         success: function (response) {
-            answer = response['success']
+            alert('수정 완료!');
+            location.href = '/';
         },
     });
-    return answer;
+}
+
+function post_delete(id) {
+    $.ajax({
+        type: 'DELETE',
+        url: `/api/post?id=${id}`,
+        data: {
+        },
+        success: function (response) {
+            alert('삭제 완료!');
+            location.href = '/';
+        },
+    });
+}
+
+
+// function check_password(id, password) {
+//     let answer;
+//     $.ajax({
+//         type: 'GET',
+//         url: `/api/post/password?id=${id}`,
+//         async: false,
+//         data: {
+//             password: password,
+//         },
+//         success: function (response) {
+//             answer = response['success']
+//         },
+//     });
+//     return answer;
+// }
+
+function getSelf(callback) {
+    $.ajax({
+        type: "GET",
+        url: "/api/users/me",
+        headers: {
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        success: function (response) {
+            callback(response.user);
+        },
+        error: function (xhr, status, error) {
+            if (status == 401) {
+                alert("로그인이 필요합니다.");
+            } else {
+                localStorage.clear();
+                alert("알 수 없는 문제가 발생했습니다. 관리자에게 문의하세요.");
+            }
+            window.location.href = "/";
+        },
+    });
+}
+
+function comment_save() {
+
+
 }

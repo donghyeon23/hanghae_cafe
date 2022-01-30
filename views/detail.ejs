@@ -31,6 +31,7 @@
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
     <link href='/css/main.css' rel="stylesheet">
     <script src="scripts/api.js"></script>
+    <script src="scripts/detail.js"></script>
 
     <style>
         .container {
@@ -82,7 +83,7 @@
                 </div>
                 <hr>
                 <label id="writer">
-                    <%=post.writer%>
+                    <%=post.nickname%>
                 </label>
                 <hr>
                 <div id="content">
@@ -94,17 +95,19 @@
         </div>
     
     <div id="comments" class="container">
+        
         <h3 style="text-align: center;margin-bottom:1rem">댓글</h3>
+        <div class="d-flex justify-content-between" style="margin-left:20px;">
+            <input id="new-example" class="form-control form-control-sm" style="margin-right: 0.5rem">
+            <button class="btn btn-outline-secondary btn-sm" onclick="add_ex()">등록</button>
+        </div>
         <ul id="comment-list">
             <li id="ex-0">This sentence contains the word 'word'.&nbsp;&nbsp;&nbsp;<a
                     href="javascript:delete_ex(0)">delete</a></li>
             <li id="ex-1">I don't like using the MS Word program.&nbsp;&nbsp;&nbsp;<a
                     href="javascript:delete_ex(1)">delete</a></li>
         </ul>
-        <div class="d-flex justify-content-between" style="margin-left:20px;">
-            <input id="new-example" class="form-control form-control-sm" style="margin-right: 0.5rem">
-            <button class="btn btn-outline-secondary btn-sm" onclick="add_ex()">add</button>
-        </div>
+
     </div>
 </div>
 </body>

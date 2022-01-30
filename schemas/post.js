@@ -13,16 +13,17 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    password: {
-        type: String,
-        required: true
-    },
     date: {
         type: String,
     },
-    comment: {
-        type: [],
-    },
 });
+
+PostSchema.virtual("postId").get(function () {
+    return this._id.toHexString();
+});
+PostSchema.set("toJSON", {
+    virtuals: true,
+});
+
 
 module.exports = mongoose.model("Post", PostSchema);

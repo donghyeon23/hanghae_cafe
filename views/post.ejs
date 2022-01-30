@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
     <link href='/css/main.css' rel="stylesheet">
 
     <!-- Optional JavaScript -->
@@ -67,30 +68,47 @@
         }
     </style>
 
+    <script>
+        let user;
+
+        $.ajax({
+            type: "GET",
+            url: "/api/users/me",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            success: function (response) {
+                user = response.nickname;
+            }
+        })
+
+        console.log(user)
+
+
+    </script>
+
 </head>
 
 <body>
-    <% const checkId = postNoId.length !== 0 ? postNoId : false %>
+    <% const checkId=postNoId.length !==0 ? postNoId : false %>
         <div class="wrap">
             <div class="banner" onclick="window.location.href = '/'"></div>
             <div class="container">
                 <div class="post-box">
                     <div>
-                    <% if (post.id) { %>
-                        <input class="input" type="text" placeholder="제목" id="title_edit" value="<%=post.title%>">
-                        <input class="input" type="text" placeholder="작성자" id="writer_edit" value="<%=post.writer%>">
-                        <% } else { %>
-                        <input class="input" type="text" placeholder="제목" id="title">
-                        <input class="input" type="text" placeholder="작성자" id="writer">
-                        <% } %>
+                        <% if (post.id) { %>
+                            <input class="input" type="text" placeholder="제목" id="title_edit" value="<%=post.title%>">
+                            <% } else { %>
+                                <input class="input" type="text" placeholder="제목" id="title">
+                                <% } %>
                     </div>
                     <hr>
                     <div id="content">
                         <div id="editor"></div>
-                            <input class="input" type="password" placeholder="비밀번호" id="password">
-                            <% if(status === 'old') { %>
-                            <button onclick="post_edit('<%=post.id%>')" id="btn-save" class="btn btn-outline-sparta btn-lg">
-                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                        <% if(status==='old' ) { %>
+                            <button onclick="post_edit('<%=post.id%>')" id="btn-save"
+                                class="btn btn-outline-sparta btn-lg">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i>
                             </button>
                             <button onclick="post_delete('<%=post.id%>')" id="btn-delete" class="btn btn-sparta btn-lg">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -98,25 +116,37 @@
                             <% } else { %>
                                 <button onclick="post_save()" id="btn-save" class="btn btn-outline-sparta btn-lg">
                                     <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                    </button>
-                            <% } %>
+                                </button>
+                                <% } %>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <script>
-            const postNoId = <%- checkId %>;
-            console.log(postNoId)
-            const editor = new toastui.Editor({
-                el: document.querySelector('#editor'),
-                height: '700px',
-            });
+            <script>
 
-            if (postNoId) {
-                editor.setHTML(postNoId.content)
-            }
-        </script>
-        
+                $(document).ready(function () {
+
+                })
+                if (!localStorage.getItem('token')) {
+                    alert('로그인이 필요한 기능입니다.');
+                    window.location.replace("/login");
+                }
+
+                const postNoId = <%- checkId %>;
+                console.log(postNoId)
+                
+                const editor = new toastui.Editor({
+                    el: document.querySelector('#editor'),
+                    height: '700px',
+                });
+
+                if (postNoId) {
+                    editor.setHTML(postNoId.content)
+                }
+
+
+            </script>
+
 </body>
 
 </html>

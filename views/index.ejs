@@ -34,7 +34,6 @@
 
     <!-- style css -->
     <style>
-
         .button-box {
             width: 80%;
             max-width: 800px;
@@ -94,6 +93,15 @@
         }
     </style>
     <script>
+        function signOut() {
+            if (!localStorage.getItem('token')) {
+                alert('잘못된 접근입니다.')
+                return;
+            }
+            localStorage.clear();
+            alert('로그아웃 완료!')
+            window.location.href = "/";
+        }
 
     </script>
 </head>
@@ -102,8 +110,9 @@
     <div class="wrap">
         <div class="banner" onclick="window.location.href = '/'"></div>
         <div class="button-box">
+            <button class="btn btn-lg" onclick="signOut()">로그아웃</button>
+            <button class="btn btn-lg" onclick="window.location.href = '/login'">로그인</button>
             <button class="btn btn-lg" onclick="window.location.href = '/post'">새 글 작성</button>
-            <button class="btn btn-lg" onclick="window.location.href = '/register'">로그인</button>
         </div>
         <table class="table">
             <thead class="thead-light">
@@ -122,7 +131,7 @@
                                 <%= post.title %>
                             </a></td>
                         <td>
-                            <%= post.writer %>
+                            <%= post.nickname %>
                         </td>
                         <td>
                             <%= post.date %>
