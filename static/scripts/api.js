@@ -27,6 +27,7 @@ function post_save() {
 }
 
 
+
 async function post_edit(id) {
     let title = $('#title_edit').val();
     let content = editor.getMarkdown();
@@ -100,7 +101,3 @@ function getSelf(callback) {
     });
 }
 
-function comment_save() {
-
-
-}

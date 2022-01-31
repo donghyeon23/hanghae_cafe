@@ -1,6 +1,7 @@
 const express = require('express');
 const Post = require('../schemas/post');
 const User = require('../schemas/user');
+const Comment = require('../schemas/comment')
 const authMiddleware = require('./auth-middleware');
 const router = express.Router();
 
@@ -33,13 +34,37 @@ router.delete('/post', async (req, res) => {
     res.json({ success: true });
 })
 
-router.get('/comments', async (req, res) => {
+router.get('/comment', async (req, res) => {
     const { id } = req.query;
 
-    await Post.findOneAndDelete({ _id: id });
+    const comments = await Comment.find({ postId: id }).sort('-date');
+    res.json({ comments })
+})
+
+router.put('/comment', authMiddleware, async (req, res) => {
+    const { nickname, content, date } = req.body;
+    const { id } = req.query;
+
+    const createcomments = await Comment.create({ postId: id, nickname, content, date });
+    res.json({ success: true });
+})
+
+router.patch('/comment', authMiddleware, async (req, res) => {
+    const { content } = req.body;
+    const { commentId } = req.query;
+
+    const updatecomment = await Comment.findOneAndUpdate({ _id: commentId }, { content })
+    res.json({ success: true });
+})
+
+router.delete('/comment', async (req, res) => {
+    const { commentId } = req.query;
+
+    await Comment.findOneAndDelete({ _id: commentId });
 
     res.json({ success: true });
 })
+
 
 // 글 비밀번호 삭제
 // router.get('/post/password', async (req, res) => {
@@ -52,8 +77,6 @@ router.get('/comments', async (req, res) => {
 //         res.json({ success: false });
 //     }
 // });
-
-
 
 
 module.exports = router;

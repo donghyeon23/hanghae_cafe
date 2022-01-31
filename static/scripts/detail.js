@@ -1,4 +1,0 @@
-function comment_save() {
-
-
-}

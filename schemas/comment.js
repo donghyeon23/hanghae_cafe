@@ -13,6 +13,9 @@ const CommentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    date: {
+        type: String,
+    },
 });
 
 CommentSchema.virtual("commentId").get(function () {
@@ -21,6 +24,7 @@ CommentSchema.virtual("commentId").get(function () {
 CommentSchema.set("toJSON", {
     virtuals: true,
 });
+
 
 
 module.exports = mongoose.model("Comment", CommentSchema);

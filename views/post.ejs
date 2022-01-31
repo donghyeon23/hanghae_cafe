@@ -69,20 +69,7 @@
     </style>
 
     <script>
-        let user;
 
-        $.ajax({
-            type: "GET",
-            url: "/api/users/me",
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-            success: function (response) {
-                user = response.nickname;
-            }
-        })
-
-        console.log(user)
 
 
     </script>
@@ -124,17 +111,28 @@
 
             <script>
 
-                $(document).ready(function () {
-
-                })
                 if (!localStorage.getItem('token')) {
                     alert('로그인이 필요한 기능입니다.');
                     window.location.replace("/login");
                 }
 
+                let user;
+
+                $.ajax({
+                    type: "GET",
+                    url: "/api/users/me",
+                    async: false,
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                    success: function (response) {
+                        user = response.user
+                    }
+                })
+                
                 const postNoId = <%- checkId %>;
                 console.log(postNoId)
-                
+
                 const editor = new toastui.Editor({
                     el: document.querySelector('#editor'),
                     height: '700px',
@@ -143,6 +141,8 @@
                 if (postNoId) {
                     editor.setHTML(postNoId.content)
                 }
+
+
 
 
             </script>

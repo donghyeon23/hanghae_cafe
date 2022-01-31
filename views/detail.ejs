@@ -31,7 +31,6 @@
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
     <link href='/css/main.css' rel="stylesheet">
     <script src="scripts/api.js"></script>
-    <script src="scripts/detail.js"></script>
 
     <style>
         .container {
@@ -60,9 +59,11 @@
             color: #eebd1d;
             background-color: transparent;
             background-image: none;
-            border-color: #eebd1d;
+            border-color:
+                #eebd1d;
         }
     </style>
+
 </head>
 
 <body>
@@ -70,46 +71,185 @@
         <div class="banner" onclick="window.location.href = '/'"></div>
         <div class="container">
             <div class="exist-post">
-                <div class="d-flex align-items-end">
+                <div class="d-flex justify-content-between align-items-center"">
                     <div>
-                        <h1 id="title">
-                            <%= post.title %>
+                        <h1 id=" title">
+                    <%= post.title %>
                         </h1>
-                    </div>
-                    <button onclick='window.location.href="/post?id=<%= post.id %>"' id="btn-edit"
+                </div>
+                <div class="edit-btn">
+                    <!-- <button onclick='window.location.href="/post?id=<%= post.id %>"' id="btn-edit"
                         class="btn btn-outline-sparta btn-lg">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <hr>
-                <label id="writer">
-                    <%=post.nickname%>
-                </label>
-                <hr>
-                <div id="content">
-                    <p>
-                        <%=post.content%>
-                    </p>
+                    </button> -->
                 </div>
             </div>
+            <hr>
+            <label id="nickname"><%=post.nickname%></label>
+            <hr>
+            <div id="content">
+                <p>
+                    <%=post.content%>
+                </p>
+            </div>
         </div>
-    
+    </div>
+
     <div id="comments" class="container">
-        
+
         <h3 style="text-align: center;margin-bottom:1rem">댓글</h3>
         <div class="d-flex justify-content-between" style="margin-left:20px;">
-            <input id="new-example" class="form-control form-control-sm" style="margin-right: 0.5rem">
-            <button class="btn btn-outline-secondary btn-sm" onclick="add_ex()">등록</button>
+            <input id="new-comment" class="form-control form-control-sm" style="margin-right: 0.5rem">
+            <button class="btn btn-outline-secondary btn-sm" onclick='comment_save("<%=post.id%>")'>등록</button>
         </div>
         <ul id="comment-list">
-            <li id="ex-0">This sentence contains the word 'word'.&nbsp;&nbsp;&nbsp;<a
-                    href="javascript:delete_ex(0)">delete</a></li>
-            <li id="ex-1">I don't like using the MS Word program.&nbsp;&nbsp;&nbsp;<a
-                    href="javascript:delete_ex(1)">delete</a></li>
         </ul>
 
     </div>
-</div>
+    </div>
 </body>
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const postId = urlParams.get("id");
+    let user = {nickname:'need login'};
+
+    $(document).ready(function () {
+        get_comments(postId)
+    })
+
+    if (localStorage.getItem('token')) {
+        
+        $.ajax({
+            type: "GET",
+            url: "/api/users/me",
+            async: false,
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            success: function (response) {
+                user = response.user
+            }
+        })
+        if (user.nickname === $('#nickname').text()) {
+            let temp_html = `<button onclick='window.location.href="/post?id=<%= post.id %>"' id="btn-edit"
+                        class="btn btn-outline-sparta btn-lg">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </button>`
+            $('.edit-btn').append(temp_html)
+        }
+    } else {
+        const loginCheck = document.getElementById('new-comment')
+        loginCheck.addEventListener('focus', (event) => {
+        $('#new-comment').blur()
+        alert('로그인이 필요한 기능입니다.');
+        location.href = '/login'
+        }, true);
+    }
+
+    async function comment_save(id) {
+    if (localStorage.getItem('token')) {
+        let content = $('#new-comment').val();
+        let nickname = user.nickname
+        if (content === '') {
+            alert('댓글 내용을 입력해주세요!')
+            return;
+        }
+        $.ajax({
+            type: 'PUT',
+            url: `/api/comment?id=${id}`,
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            data: {
+                nickname: nickname,
+                content: content,
+                date: getCurrentDate()
+            },
+            success: function (response) {
+                alert('저장 완료!');
+                get_comments(postId);
+            },
+        });
+    } else {
+        alert('로그인이 필요한 기능입니다.');
+        location.href = '/login';
+    }
+}
+    function get_comments(id) {
+        $('#comment-list').empty();
+        $('#new-comment').val('');
+        $.ajax({
+            type: 'GET',
+            url: `/api/comment?id=${id}`,
+            data: {
+            },
+            success: function (response) {
+                let comments = response.comments
+                for (let i=0; i<comments.length; i++) {
+                    if (user.nickname === comments[i].nickname) {
+                        let temp_html = `<li id="comment-${i}">${comments[i].nickname} / ${comments[i].content} / ${comments[i].date}&nbsp;&nbsp;&nbsp;<a href="javascript:editCommentOpen('${comments[i].id}',${i})">수정</a>
+                &nbsp;&nbsp;&nbsp;<a href="javascript:deleteComment('${comments[i].id}',${i})">삭제</a>
+            </li>`
+                        $('#comment-list').append(temp_html);
+                    } else {
+                        temp_html = `<li id="comment-${i}">${comments[i].nickname} / ${comments[i].content} / ${comments[i].date}</li>`
+                        $('#comment-list').append(temp_html);
+                    }
+                }
+            },
+        });
+    }
+
+    function editCommentOpen(id, num) {
+        console.log(id)
+        let content = $(`#comment-${num}`).text().split('/')[1].trim() 
+        $(`#comment-${num}`).empty();
+        let temp_html = `<input id="edit-comment-${num}" class="form-control form-control-sm" style="margin-right: 0.5rem" value="${content}"><button class="btn btn-outline-secondary btn-sm" onclick='editComment("${id}", ${num})'>수정</button><button class="btn btn-outline-secondary btn-sm" onclick='get_comments(postId)'>취소</button>`
+        $(`#comment-${num}`).append(temp_html)
+    }
+
+    function editComment(id, num) {
+        let content = $(`#edit-comment-${num}`).val();
+        if (content === '') {
+            alert('수정 내용을 입력해주세요!')
+            return;
+        }
+        $.ajax({
+            type: 'PATCH',
+            url: `/api/comment?commentId=${id}`,
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            data: {
+                content: content,
+            },
+            success: function (response) {
+                alert('수정 완료!');
+                get_comments(postId);
+            },
+        });
+    }
+
+    function deleteComment(id, num) {
+        if (confirm('정말로 삭제하시겠습니까?')) {
+            $.ajax({
+            type: 'delete',
+            url: `/api/comment?commentId=${id}`,
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            success: function (response) {
+                alert('삭제 완료!');
+                get_comments(postId);
+            },
+        });
+        } else {
+            get_comments(postId);
+        }
+    }
+
+
+</script>
 
 </html>

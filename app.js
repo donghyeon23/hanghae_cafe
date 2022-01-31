@@ -1,12 +1,14 @@
 const express = require('express');
 const connect = require('./schemas');
 const Post = require('./schemas/post');
+const Comment = require('./schemas/comment')
 const app = express();
 const port = 3000;
 
 const postRouter = require('./routes/posts')
 const userRouter = require('./routes/users')
 const authMiddleware = require("./routes/auth-middleware");
+const comment = require('./schemas/comment');
 
 connect();
 
@@ -48,6 +50,7 @@ app.get('/post', async (req, res) => {
 app.get('/detail', async (req, res) => {
     const { id } = req.query;
     const post = await Post.findOne({ _id: id });
+    console.log(post)
     res.render('detail', { post: post });
 });
 
