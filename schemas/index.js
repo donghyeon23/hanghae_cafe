@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const connect = () => {
     mongoose
-        .connect("mongodb://localhost:27017/hanghae_cafe")
+        .connect("mongodb://test1:test1234@54.180.137.157:27017/hanghae_cafe?authSource=admin")
         .catch(err => console.log(err));
 };
 
